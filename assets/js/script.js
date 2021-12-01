@@ -142,23 +142,46 @@ $(".list-group").on("click", "span", function() {
   dateInput.trigger("focus");
 });
 
+//value of the date was changed
+$(".list-group").on("blur", "input [type='text']", function() {
+  var date = $(this).val();
 
+  //get status type and position in the list
+  var status = $(this)
+  .closest(".list-group")
+  .attr("id")
+  .replace("list-", "");
+  var index = $(this)
+  .closest(".list-group-item")
+  .index();
 
+  // update task in array and re-save to localstorage
+  tasks[status][index].date = date;
+  saveTasks();
 
+  //recreate span and insert in place of input element
+  var taskSpan = $("<span>")
+  .addClass("badge badge-primary badge-pill")
+  .text(date);
+  $(this).replaceWith(taskSpan);
+});
 
-// remove all tasks
+//remove all tasks
 $("#remove-tasks").on("click", function() {
   for (var key in tasks) {
-    tasks[key].length = 0;
+    tasks[key].length =0;
     $("#list-" + key).empty();
   }
   saveTasks();
-  $(".list-group").on("click", "p", function() {
-    console.log("<p> was clicked");
-  });
 });
 
-// load tasks for the first time
+//loade tasks for the first time
 loadTasks();
+
+
+
+
+
+
 
 
