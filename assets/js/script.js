@@ -120,6 +120,26 @@ $(".card .list-group").sortable( {
   }
 });
 
+//trash icon can be dropped onto
+$("#trash").droppable( {
+  accept:".card .list-group-item",
+  tolerance: "touch",
+  drop: function(event, ui) {
+    //remove dragged element from the dom
+    ui.draggable.remove();
+    $(".bottom-trash").removeClass("bottom-trash-active");
+  },
+  out: function(event, ui) {
+    $(".bottom-trash").removeClass("bottom-trash-active");
+  }
+});
+
+//convert text field into a jquery date picker
+$("#modalDueDate").datepicker( {
+  //force user to select a future date 
+  minDate: 1
+});
+
 
 
 // modal was triggered
